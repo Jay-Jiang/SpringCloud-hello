@@ -10,7 +10,8 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <!--这是整个项目中的通用模块（公共部分），通常包括共用的接口、实体、工具类等，抽取于此-->
+    <!--这是整个项目中的通用模块（公共部分）-->
+    <!--通常包括共用的接口、实体、工具类等，抽取于此，供其他类直接 jar 依赖使用，避免重复书写-->
     <artifactId>spring-cloud-api</artifactId>
 
     <properties>

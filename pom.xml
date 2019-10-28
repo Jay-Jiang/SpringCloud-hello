@@ -10,6 +10,7 @@
 
     <modules>
         <module>spring-cloud-api</module>
+        <module>spring-cloud-provider-8001</module>
     </modules>
 
     <!--定义属性-->
@@ -23,10 +24,9 @@
 
         <junit.version>4.12</junit.version>
         <log4j.version>1.2.17</log4j.version>
-        <lombok.version>1.16.18</lombok.version>
     </properties>
 
-    <!--依赖版本的统一管理-->
+    <!--在父工程中，进行依赖版本的统一管理-->
     <dependencyManagement>
         <dependencies>
             <!--spring cloud-->
@@ -75,11 +75,7 @@
                 <artifactId>log4j</artifactId>
                 <version>${log4j.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-            </dependency>
+            <!--单元测试-->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
