@@ -9,9 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * _@Desc:
  */
 @SpringBootApplication
-public class AppMain {
+public class AppMain_Dept_8001 {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AppMain.class, args);
+		SpringApplication.run(AppMain_Dept_8001.class, args);
 	}
 }

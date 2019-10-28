@@ -11,6 +11,7 @@
     <modules>
         <module>spring-cloud-api</module>
         <module>spring-cloud-provider-8001</module>
+        <module>spring-cloud-consumer-80</module>
     </modules>
 
     <!--定义属性-->
