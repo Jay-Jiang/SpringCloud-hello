@@ -9,11 +9,11 @@ mybatis:
 
 spring:
   application:
-    name: spring-cloud-provider-dept
+    name: spring-cloud-provider-dept-8001
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
     driver-class-name: com.mysql.jdbc.Driver                # mysql驱动包
-#    driver-class-name: org.gjt.mm.mysql.Driver              # mysql驱动包(之前的写法)
+    #    driver-class-name: org.gjt.mm.mysql.Driver              # mysql驱动包(之前的写法)
     url: jdbc:mysql://localhost:3306/demo_db              # 数据库名称
     username: root
     password: mysql2018
@@ -22,3 +22,26 @@ spring:
       initial-size: 5                                       # 初始化连接数
       max-total: 5                                          # 最大连接数
       max-wait-millis: 200                                  # 等待连接获取的最大超时时间
+
+eureka:
+  client: #客户端注册进eureka服务列表内
+    service-url:
+      #单机
+      defaultZone: http://localhost:7001/eureka/
+      #defaultZone: http://eureka-server-7001.com:7001/eureka/
+      #集群
+      #defaultZone: http://eureka-server-7002.com:7002/eureka/,http://eureka-server-7003.com:7003/eureka/
+  instance:
+    instance-id: provider-dept-8001 #优化在 Server 界面显示的名称
+    prefer-ip-address: true     #访问路径可以显示IP 地址，方便定位到具体的微服务
+
+#防止在 Eureka Server 界面点击对应的微服务链接时，展示该微服务的信息，而不是进入报错页面
+info:
+  app:
+    name: spring-cloud-provider-dept-8001
+  company:
+    name: www.demo.springcloud.com
+  build:
+    artifactId: $project.artifactId$
+    version: $project.version$
+
