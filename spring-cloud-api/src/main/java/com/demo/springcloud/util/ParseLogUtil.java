@@ -8,7 +8,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * _@Author: jianghj
@@ -17,24 +21,30 @@ import java.util.*;
  */
 
 public class ParseLogUtil {
-	private static final String SESSION_FLAG = "SessID";
+
+	//关键字段标记声明
+	private static final String MSG_ID_FLAG = "MsgID:";
+	private static final String SEND_NUM_FLAG = "Sndr:";
+	private static final String RECEIVE_NUM_FLAG = "Rcvr:";
+	private static final String STATE_CODE_FLAG = "FlwOvrStatCode:";
+	private static final String MSG_SIZE_FLAG = "MsgSz:";
 
 	public static void main(String[] args) {
 
-		String filePath = "C:/Users/Jay/Desktop/log.txt";
-		List<SessionLog> list = parseLogFile(filePath);
+		String filePath = "C:/Users/Jay/Desktop/target.log";
+		List<LogMsg> list = parseLogGroupByMsgId(filePath);
 		JSONArray res = JSONArray.fromObject(list);
 		System.out.println(res.toString());
 	}
 
 	/**
-	 * _@功能描述: 从日志文件中获取指定的键值对信息，并关联到对应的SessionID 上
+	 * _@功能描述: 从日志文件中按 MsgId 获取相关信息
 	 * _@author: jhjing
 	 * _@date: 2019.10.29
 	 * _@param:filePath 日志文件的绝对路径
 	 * _@return:
 	 */
-	public static List<SessionLog> parseLogFile(String filePath) {
+	public static List<LogMsg> parseLogGroupByMsgId(String filePath) {
 
 		//参数非空校验
 		if (StringUtils.isEmpty(filePath)) {
@@ -48,66 +58,54 @@ public class ParseLogUtil {
 			br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), StandardCharsets.UTF_8));
 			//按行读取
 			String line = "";
-			String tempLine = "";
 			//保存读取结果
-			List<SessionLog> list = new ArrayList<SessionLog>();
-			SessionLog sessionLog = null;
+			List<LogMsg> list = new ArrayList<LogMsg>();
+			LogMsg logMsg = null;
 
 			while ((line = br.readLine()) != null) {
-				//如果 SessionID 尚且为空
-				if (sessionLog == null) {
-					//在行中寻找 SessionID 的标记
-					int flag = line.indexOf(SESSION_FLAG);
+				String msgId = null;
+				//获取行中的 MsgID
+				msgId = getValueEndByBracket(line, MSG_ID_FLAG);
 
-					//如果行中不包含 SessionID ，则直接读取下一行
-					if (flag < 1) {
-						continue;
-					}
-					//如果行中包含 SessionID ，则直接从 SessionID 的标记位置开始读取
-					line = line.substring(flag - 1);
-				}
-
-				//以中括号分割目标信息，如果不包含，直接进入下一行
-				if (!line.contains("[") || !line.contains("]")) {
+				if (logMsg == null && msgId == null) {
+					//如果行中不包含 MsgId ，则直接读取下一行
 					continue;
+				} else if (logMsg != null) {
+					//如果当前行中的MsgID，和当前的消息实例ID不同
+					if (msgId != null && !msgId.equals(logMsg.getMsgId())) {
+						//保存原先的消息实例
+						list.add(logMsg);
+						//创建新的消息实例
+						logMsg = new LogMsg(msgId);
+					}
+				} else {
+					//创建信息实例
+					logMsg = new LogMsg(msgId);
 				}
 
-				//开始读取目标信息
-				tempLine = line;
-				int start = tempLine.indexOf("[");
-				int end = tempLine.indexOf("]");
+				//解析发送号码
+				if (logMsg.getSendNum() == null) {
+					logMsg.setSendNum(getValueEndByBracket(line, SEND_NUM_FLAG));
 
-				while (tempLine.length() > 0 && start > -1 && end > -1) {
-					//获取被中括号包裹的信息体
-					String targetInfo = tempLine.substring(start + 1, end);
-					//获取信息体中的键值对
-					if (targetInfo.contains(":")) {
-						String[] params = targetInfo.split(":");
-						if (params.length == 2) {
-							//当前行中是否包含 sessionId
-							if (SESSION_FLAG.equals(params[0])) {
-								if (sessionLog != null) {
-									//将有效的旧session ID 的信息保存下来
-									list.add(sessionLog);
-								}
-								//创建新的 session ID
-								sessionLog = new SessionLog(params[1]);
-							} else if (sessionLog != null) {
-								//将目标键值对，添加到当前非空的 SessionID 中
-								sessionLog.getLogs().put(params[0], params[1]);
-							}
-						}
-					}
-					//如果读到了行尾，则结束读取
-					if (end >= tempLine.length() - 1) {
-						break;
-					}
-					//继续向后搜索目标信息体
-					tempLine = tempLine.substring(end + 1);
-					start = tempLine.indexOf("[");
-					end = tempLine.indexOf("]");
 				}
+				//解析接受号码
+				if (logMsg.getReceiveNum() == null) {
+					logMsg.setReceiveNum(getValueEndByBracket(line, RECEIVE_NUM_FLAG));
+
+				}
+				//解析状态码
+				String stateCodeStr = getValueEndBySemicolon(line, STATE_CODE_FLAG);
+				setMaxStateCode(logMsg, stateCodeStr);
+				//解析短信大小
+				String msgSizeStr = getValueEndBySemicolon(line, MSG_SIZE_FLAG);
+				setMaxMsgSize(logMsg, msgSizeStr);
+				//解析开始和结束时间
+				String timeStr = getValueEndByBracket(line, "[");
+				setStartOrEndTime(logMsg, timeStr);
 			}
+
+			//将最后一个消息实例保存下来
+			list.add(logMsg);
 			//返回解析结果
 			return list;
 
@@ -125,6 +123,157 @@ public class ParseLogUtil {
 		}
 		return null;
 	}
+
+	/**
+	 * _@功能描述: 获取指定字段开头，以中括号结尾的值
+	 * _@author: jhjing
+	 * _@date: 2019.10.30 030
+	 * _@param:source
+	 * _@param:start
+	 * _@return:
+	 */
+	private static String getValueEndByBracket(String source, String start) {
+		//参数校验
+		if (StringUtils.isEmpty(source) || StringUtils.isEmpty(start)) {
+			return "";
+		}
+
+		return getValue(source, start, "]");
+	}
+
+	/**
+	 * _@功能描述: 获取指定字段开头，以分号结尾的值
+	 * _@author: jhjing
+	 * _@date: 2019.10.30 030
+	 * _@param:source
+	 * _@param:start
+	 * _@return:
+	 */
+	private static String getValueEndBySemicolon(String source, String start) {
+		//参数校验
+		if (StringUtils.isEmpty(source) || StringUtils.isEmpty(start)) {
+			return "";
+		}
+
+		return getValue(source, start, ";");
+	}
+
+	/**
+	 * _@功能描述: 截取指定字符串
+	 * _@author: jhjing
+	 * _@date: 2019.10.30 030
+	 * _@param:source
+	 * _@param:start
+	 * _@return:
+	 */
+	private static String getValue(String source, String start, String end) {
+		//source 中是否含有 start
+		int index = source.indexOf(start);
+		if (index < 0) {
+			return null;
+		}
+		//从 start 位置截取
+		String subSource = source.substring(index);
+
+		int startIndex = start.length();
+		int endIndex = subSource.indexOf(end);
+		return subSource.substring(startIndex, endIndex);
+	}
+
+	/**
+	 * _@功能描述: 设置最终状态为最大值
+	 * _@author: jhjing
+	 * _@date: 2019.10.30 030
+	 * _@param:logMsg
+	 * _@param:newCode
+	 * _@return:
+	 */
+	private static void setMaxStateCode(LogMsg logMsg, String newCode) {
+		if (StringUtils.isEmpty(newCode)) {
+			return;
+		}
+
+		String oldCode = logMsg.getStateCode();
+
+		if (oldCode == null) {
+			logMsg.setStateCode(newCode);
+			return;
+		}
+
+		if (Long.parseLong(newCode) > Long.parseLong(oldCode)) {
+			logMsg.setStateCode(newCode);
+		}
+	}
+
+	/**
+	 * _@功能描述: 设置短信大小为最大值
+	 * _@author: jhjing
+	 * _@date: 2019.10.30 030
+	 * _@param:logMsg
+	 * _@param:newSize
+	 * _@return:
+	 */
+	private static void setMaxMsgSize(LogMsg logMsg, String newSize) {
+		if (StringUtils.isEmpty(newSize)) {
+			return;
+		}
+
+		String oldSize = logMsg.getMsgSize();
+
+		if (oldSize == null) {
+			logMsg.setMsgSize(newSize);
+			return;
+		}
+
+		//获取数字
+		String newSizeNum = newSize.substring(0, newSize.indexOf(" "));
+		String oldSizeNum = oldSize.substring(0, oldSize.indexOf(" "));
+		//比较大小
+		if (Long.parseLong(newSizeNum) > Long.parseLong(oldSizeNum)) {
+			logMsg.setMsgSize(newSize);
+		}
+	}
+
+	/**
+	 * _@功能描述: 设置开始和结束时间
+	 * _@author: jhjing
+	 * _@date: 2019.10.30 030
+	 * _@param:logMsg
+	 * _@param:time
+	 * _@return:
+	 */
+	private static void setStartOrEndTime(LogMsg logMsg, String time) {
+		if (StringUtils.isEmpty(time)) {
+			return;
+		}
+
+		String startTime = logMsg.getStartTime();
+		String endTime = logMsg.getEndTime();
+		if (startTime == null) {
+			logMsg.setStartTime(time);
+			logMsg.setEndTime(time);
+			return;
+		}
+
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS", Locale.ENGLISH);
+		try {
+			Long startMills = format.parse(startTime).getTime();
+			Long endMills = format.parse(endTime).getTime();
+			Long timeMills = format.parse(time).getTime();
+
+			if (timeMills > endMills) {
+				logMsg.setEndTime(time);
+				return;
+			}
+
+			if (timeMills < startMills) {
+				logMsg.setStartTime(time);
+			}
+
+		} catch (Exception e) {
+		}
+	}
+
 
 }
 
