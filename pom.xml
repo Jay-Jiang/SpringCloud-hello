@@ -97,17 +97,24 @@
     <!--项目构建-->
     <build>
         <finalName>spring-cloud-parent</finalName>
+        <!--允许构建时，读取所有指定目录下的文件（配置信息）-->
         <resources>
             <resource>
+                <!--指定目录-->
                 <directory>src/main/resources</directory>
+                <!--开启过滤-->
                 <filtering>true</filtering>
             </resource>
         </resources>
         <plugins>
+            <!--进行过滤操作的插件-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
+                <!--配置过滤操作规则-->
                 <configuration>
+                    <!--过滤筛选以 $ 为分隔符的字段（实现 $ 的赋值操作）-->
+                    <!--如 $project.artifactId$ -->
                     <delimiters>
                         <delimit>$</delimit>
                     </delimiters>
