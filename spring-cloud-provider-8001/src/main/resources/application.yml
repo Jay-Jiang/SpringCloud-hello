@@ -28,10 +28,10 @@ eureka:
   client: #客户端注册进eureka服务列表内
     service-url:
       #单机
-      defaultZone: http://localhost:7001/eureka/
+      #defaultZone: http://localhost:7001/eureka/
       #defaultZone: http://eureka-server-7001.com:7001/eureka/
       #集群
-      #defaultZone: http://eureka-server-7002.com:7002/eureka/,http://eureka-server-7003.com:7003/eureka/
+      defaultZone: http://eureka-server-7001.com:7001/eureka/,http://eureka-server-7002.com:7002/eureka/,http://eureka-server-7003.com:7003/eureka/
   instance:
     instance-id: provider-dept-8001   # 优化在 Server 界面显示对应微服务的超链接名称
     prefer-ip-address: true           # 超链接悬浮时，可以显示该微服务的 IP 地址，方便定位
