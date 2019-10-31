@@ -1,0 +1,107 @@
+
+eureka:
+  instance:  #当前实例的配置信息
+    appname: unknown  # 当前实例的应用名，默认是 unknown
+    app-group-name: null  #实例归属的应用组名
+    data-center-info: new MyDataCenterInfo(DataCenterInfo.Name.MyOwn)   #当前实例部署的数据中心，如 AWS、MyOwn 等
+    hostname: eureka-server-7001.com  #实例的主机名（类似ip 地址），不配置时，获取当前系统的主机名称（同一个局域网，主机名是唯一的，能够通过主机名进行互相访问）
+    home-page-url-path: /  #实例主页的相对 URL
+    home-page-url: null  #实例主页的绝对 URL
+    health-check-url-path: "/actuator/health"  #实例健康检查的相对 URL
+    health-check-url: null  #实例健康检查的绝对 URL
+    ip-address: null #实例的 IP 地址
+    instance-id: null  #实例 ID，是注册到 Eureka Server 上的唯一标识，不能与相同 appname 的其他实例重复
+    instance-enabled-onit: false  #实例注册到 Eureka Server 上，是否立刻开启通讯（有时，应用在准备好服务之前，需要做一些预处理）
+    lease-renewal-interval-in-seconds: 30  #实例续约的间隔时间，默认是30 秒
+    lease-expiration-duration-in-seconds: 90  #实例的超时时间，默认是90 秒，超过将不会再有续约，Eureka server 认为实例不再可用，随之会将其剔除
+    metadata-map: new HashMap()  #实例的元数据，可以供其他实例使用。如 spring-boot-admin 在监控时，获取本实例的上下文和端口
+    non-secure-port: 80  #设置非安全端口
+    non-secure-port-enabled: true  #是否开启非安全端口通讯，即 HTTP
+    namespace: "eureka"  #配置属性的命名空间（SpringCloud中被忽略，默认就是 eureka）
+    prefer-ip-address: false  #是否优先使用 IP 地址作为主机名的标识，设置为 true 时，instance-id 失效
+    secure-health-check-url: null  #实例安全的健康检查的绝对 URL
+    secure-port: 443  #设置安全端口
+    secure-port-enabled: false  #是否开启安全端口通讯，即 HTTPS
+    status-page-url-path: "/actuator/info"  #实例状态页的相对 URL
+    status-page-url: null   #实例状态页的绝对 URL
+    secure-virtual-host-name: unknown  #安全虚拟主机名，，首先获取 spring.application.name 的值，如果取值为空，则默认为 unknown
+    virtual-host-name: unknown  #虚拟主机名称，首先获取 spring.application.name 的值，如果取值为空，则默认为 unknown
+
+  client:   #Eureka 客户端的特性配置（Eureka 注册中心本身，也是一个 Eureka 客户端，将自己进行注册和发现）
+    availability-zones: new HashMap()  #当前客户端可用的分区列表，用逗号隔开。
+    backup-registry-impl: null  #客户端第一次启动时，获取服务注册信息的回溯实现，即首次启动时，会检查有没有 BackupRegistry 的实现类，若有，优先从实现类中获取服务注册信息。
+    cache-refresh-executor-thread-pool-size: 2  #客户端获取注册信息的，缓存更新执行器（cacheRefreshExecutor）的线程池大小
+    cache-refresh-executor-exponential-back-off-bound: 10  #客户端缓存更新执行器，更新失败后再次执行的最大延迟倍数，即最大延迟时间=10*拉取信息的间隔时间（默认30 秒）
+    disable-delta: false  #客户端是否开启增量同步注册信息（从服务注册中心，增量同步信息，需要服务端同步开启此功能）
+    enabled: true  #当前实例，是否启用 Eureka 客户端
+    eureka-connection-idle-timeout-seconds: 30  #客户端和 Eureka Server 之间的 Http 连接的空闲超时时间
+    eureka-service-url-poll-interval-seconds: 300  #客户端拉取 Eureka Server 地址的间隔时间，默认300 秒（因为服务注册中心是集群的，可能发生增减）
+    eureka-server-read-timeout-seconds: 8  #客户端从 Eureka Server 读取信息的超时时间，默认8 秒
+    eureka-server-connect-timeout-seconds: 5  #客户端连接目标 Eureka Server 的超时时间，默认5 秒
+    eureka-server-total-connections: 200  #客户端连接 Eureka Server 的链接总数（连接总上限）
+    eureka-server-total-connections-per-host: 50  #客户端连接单台 Eureka Server 的链接总数（连接上限）
+    eureka-server-u-r-l-context: null  #当 Eureka Server 列表在 DNS 中时，目标 Eureka Server 的上下文路径，http://xxxx/eureka 。
+    eureka-server-port: null  #当 Eureka Server 列表在 DNS 中时，Eureka Server 的端口
+    eureka-server-d-n-s-name: null  #当 Eureka Server 列表在 DNS 中时，且要通过域名，获取 Eureka Server 列表时，DNS 名称
+    fetch-registry: false  #是否拉取注册信息
+    fetch-remote-regions-registry: null  #客户端获取注册服务的远程地区，以逗号隔开
+    filter-only-up-instances: true  #是否只拉取 UP 状态的实例，即健康的实例
+    heartbeat-executor-thread-pool-size: 2  #客户端心跳（续约）执行器的线程池大小
+    heartbeat-executor-exponential-back-off-bound: 10  #客户端心跳执行器，在续约超时后再次执行的最大延迟倍数，即最大延迟时间= 10 * 续约间隔（默认30 秒）
+    initial-instance-info-replication-interval-seconds: 40  # 首次将实例信息复制到 Eureka Server 的延迟时间
+    instance-info-replication-interval-seconds: 30  #定时将（发生改变的）实例信息，复制到 Eureka Server 的间隔时间，默认30 秒
+    log-delta-diff: false  #是否记录客户端与 Eureka Server 之间的注册信息的差异
+    registry-fetch-interval-seconds: 30  #客户端定时从 Eureka Server 拉取服务注册信息的间隔时间，默认是30 秒
+    register-with-eureka: false  #当前实例是否注册到 Eureka Server 中
+    region: "us-east-1"  #当前实例所属的区域
+    should-unregister-on-shutdown: true  #是否在停止服务的时候，向 Eureka Server 发起 Cancel 指令
+    should-enforce-registration-at-init: false  #是否在初始化过程中，注册服务
+    service-url:  #目标 Eureka Server 的分区地址（默认添加一个 defaultZone）
+      defaultUrl: null
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+    proxy-port: null  #目标Eureka Server 的代理端口
+    proxy-host: null  #目标Eureka Server 的代理主机（ip地址）
+    proxy-user-name: null  #目标Eureka Server 的代理登录用户名
+    proxy-password: null  #目标Eureka Server 的代理登录密码
+    prefer-same-zone-eureka: true  #是否使用相同 Zone 下的 Eureka Server
+
+  server:  #Eureka 注册中心服务端的配置
+    delta-retention-timer-interval-in-ms: 30000  #30 * 1000，清理增量队列中过期内容的间隔时间
+    disable-delta: false  #是否开启为客户端提供增量信息
+    disable-delta-for-remote-regions: false  #是否启用远程区域增量
+    enable-self-preservation: true  #是否自动开启 Server 的自我保护机制
+    enable-replicated-request-compression: false  #是否启用复制实例信息时，进行请求压缩
+    eviction-interval-timer-in-ms: 6000  #60 * 1000，server 剔除无效实例的间隔时间
+    max-time-for-replication: 30000  #server 节点间，进行同步的最大时间，单位毫秒
+    max-elements-in-status-replication-pool: 10000  #状态同步队列的最大容量
+    max-elements-in-peer-replication-pool: 10000  #server 节点间，执行同步数据的最大容量
+    max-threads-for-status-replication: 1  #执行状态同步的最大线程数量
+    max-threads-for-peer-replication: 20  #server 节点间，执行数据同步的最大线程数
+    min-threads-for-peer-replication: 5  #server 节点间，执行数据同步的最小线程数
+    peer-eureka-nodes-update-interval-ms: 600000  #10 * 60 * 1000，集群中每个 Server 节点的更新频率
+    peer-node-connect-timeout-ms: 200  # server 节点间连接的超时时间，默认是 200 毫秒
+    peer-node-total-connections: 1000  # 集群中所有 server 节点间连接的总数（总连接上限）
+    peer-node-total-connections-per-host: 500  # 集群中，单个 server 节点的连接总数（连接上限）
+    peer-node-connection-idle-timeout-seconds: 30  #server 节点间，连接空闲超时时间
+    renewal-percent-threshold: 0.85  #自我保护续约百分比阈值因子，如果实际续约数小于续约阈值，则自我保护立即开启
+    renewal-threshold-update-interval-ms: 900000  #15 * 60 * 1000，当前续约数阈值的计算更新频率，一般设置为 15 分钟
+    response-cache-auto-expiration-in-seconds: 180  #实例注册列表缓存的过期时长（当注册列表没有发生变化时算起）
+    response-cache-update-interval-ms: 30000  #30 * 1000，实例注册列表缓存进行更新的间隔时间
+    registry-sync-retries: 0  #
+    registry-sync-retry-wait-ms: 30000  #30 * 1000，注册信息同步进行重试之前的等待时间
+    retention-time-in-m-s-in-delta-queue: 3  #3 * minutes，server 增量队列的缓存时间，单位分钟
+    remote-region-connect-timeout-ms: 1000  #远程区域连接超时时间
+    remote-region-read-timeout-ms: 1000  #远程区域读取超时时间
+    remote-region-total-connections: 1000  #远程区域最大连接数
+    remote-region-total-connections-per-host: 500  #远程区域单机的连接数
+    remote-region-connection-idle-timeout-seconds: 30  #远程区域连接的空闲超时时间
+    remote-region-registry-fetch-interval: 30  #远程区域注册信息拉取的频率
+    remote-region-fetch-thread-pool-size: 20  #远程区域注册信息的线程数
+    sync-when-timestamp-differs: true  #当 server/client 之间的时间不同时，是否进行同步
+    use-read-only-response-cache: true  #是否开启实例注册列表的二级缓存
+    wait-time-in-ms-when-sync-empty: 300000  #5 * 60 * 1000，当从其他 Server 节点同步实例信息为空时，继续等待的时间
+  dashboard:
+    enabled: true  #是否启用仪表盘，默认开启
+    path: /  #仪表盘访问路径
+
+

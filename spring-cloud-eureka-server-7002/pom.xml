@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>spring-cloud-eureka-server-7001</artifactId>
+    <artifactId>spring-cloud-eureka-server-7002</artifactId>
 
     <dependencies>
         <!--Eureka Server-->
@@ -35,7 +35,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <!--指明程序主入口，否则 Java -jar 无法运行-->
                 <configuration>
-                    <mainClass>com.demo.springcloud.AppMain_Eureka_Server_7001</mainClass>
+                    <mainClass>com.demo.springcloud.AppMain_Eureka_Server_7002</mainClass>
                 </configuration>
                 <executions>
                     <execution>
@@ -47,6 +47,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>
