@@ -21,22 +21,22 @@ public class DeptConsumerController {
 
 	@RequestMapping(value = "/consumer/dept/add", method = RequestMethod.POST)
 	public Boolean addNewDept(@RequestBody Dept dept) {
-		return restTemplate.postForObject(ConfigBean.DEPT_URL_PREFFIX + "add", dept, Boolean.class);
+		return restTemplate.postForObject(ConfigBean.DEPT_URL_PREFFIX + "/dept/add", dept, Boolean.class);
 	}
 
 	@RequestMapping(value = "/consumer/dept/get/{deptNo}", method = RequestMethod.GET)
 	public Dept getDept(@PathVariable("deptNo") Long deptNo) {
-		return restTemplate.getForObject(ConfigBean.DEPT_URL_PREFFIX+"get/{1}", Dept.class, deptNo);
+		return restTemplate.getForObject(ConfigBean.DEPT_URL_PREFFIX+"/dept/get/{1}", Dept.class, deptNo);
 	}
 
 	@RequestMapping(value = "/consumer/dept/list", method = RequestMethod.GET)
 	public List<Dept> list() {
-		return restTemplate.getForObject(ConfigBean.DEPT_URL_PREFFIX + "list", List.class);
+		return restTemplate.getForObject(ConfigBean.DEPT_URL_PREFFIX + "/dept/list", List.class);
 	}
 
 	@RequestMapping(value = "/consumer/dept/delete/{deptNo}", method = RequestMethod.DELETE)
 	public Boolean deleteDept(@PathVariable("deptNo") Long deptNo) {
-		restTemplate.delete(ConfigBean.DEPT_URL_PREFFIX + "delete/"+ deptNo);
+		restTemplate.delete(ConfigBean.DEPT_URL_PREFFIX + "/dept/delete/"+ deptNo);
 		return true;
 	}
 

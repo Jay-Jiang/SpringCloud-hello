@@ -1,6 +1,7 @@
 package com.demo.springcloud.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
@@ -16,12 +17,13 @@ public class ConfigBean {
 	public static String DEPT_URL_PREFFIX;
 
 	@Value("${dept.url.preffix}")
-	private void setDeptUrlPreffix(String deptUrlPreffix){
+	private void setDeptUrlPreffix(String deptUrlPreffix) {
 		DEPT_URL_PREFFIX = deptUrlPreffix;
 	}
 
 	@Bean("restTemplate")
-	public RestTemplate getRestTemplate(){
+	@LoadBalanced
+	public RestTemplate getRestTemplate() {
 		return new RestTemplate();
 	}
 }

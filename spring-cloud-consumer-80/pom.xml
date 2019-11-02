@@ -18,6 +18,16 @@
             <artifactId>spring-cloud-api</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!--Eureka Client：获取服务列表-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <!--Ribbon：客户端负载均衡-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+        </dependency>
         <!--SpringMVC-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
