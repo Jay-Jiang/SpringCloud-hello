@@ -10,5 +10,5 @@ eureka:
 ## 自定义参数
 dept:
   url:
-    preffix: http://PROVIDER-DEPT/
-    # preffix: "http://localhost:8001/dept/"
+    preffix: http://PROVIDER-DEPT/ # 使用负载均衡组件后，可以使用【服务名称】代替具体的服务提供者所在的 URI 地址
+    # preffix: "http://localhost:8001/"
