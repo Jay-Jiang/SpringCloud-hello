@@ -1,5 +1,5 @@
 server:
-  port: 8001
+  port: 8003
 
 mybatis:
   config-location: classpath:mybatis/mybatis.cfg.xml        # mybatis配置文件所在路径
@@ -14,7 +14,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
     driver-class-name: com.mysql.jdbc.Driver                # mysql驱动包
     #driver-class-name: org.gjt.mm.mysql.Driver             # mysql驱动包(之前的写法)
-    url: jdbc:mysql://springcloud.mysql.com:3306/demo_db_01     # 数据库名称
+    url: jdbc:mysql://springcloud.mysql.com:3306/demo_db_03     # 数据库名称
     username: root
     password: mysql2018
     dbcp2:
@@ -33,7 +33,7 @@ eureka:
       #集群
       defaultZone: http://eureka-server-7001.com:7001/eureka/,http://eureka-server-7002.com:7002/eureka/,http://eureka-server-7003.com:7003/eureka/
   instance:
-    instance-id: provider-dept-8001   # 当前注册实例，在 Eureka Server 中的唯一标识，配置后优化用于生成对应的超链接名称，否则使用 hostname+appname+端口号（可以理解为提供服务的实例名称）
+    instance-id: provider-dept-8003   # 当前注册实例，在 Eureka Server 中的唯一标识，配置后优化用于生成对应的超链接名称，否则使用 hostname+appname+端口号（可以理解为提供服务的实例名称）
     prefer-ip-address: true           # 有限使用ip 地址进行地址注册，超链接悬浮时，可以显示该微服务的 IP 地址，方便定位，否则使用 hostname
 
 # Actuator 配置
@@ -41,7 +41,7 @@ eureka:
 # 即 配置了 /actuator/info 返回的 JSON 数据
 info:
   app:
-    name: spring-cloud-provider-dept-8001
+    name: spring-cloud-provider-dept-8003
   company:
     name: www.demo.springcloud.com
   build:
