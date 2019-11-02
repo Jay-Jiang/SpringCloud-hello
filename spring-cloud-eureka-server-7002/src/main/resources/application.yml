@@ -3,10 +3,11 @@ server:
 
 eureka:
   instance:
-    hostname: eureka-server-7002.com #eureka服务端的实例名称
+    appname: eureka-server-7002 #当前 Eureka 实例的注册名称（优先级高于 spring.application.name）
+    hostname: eureka-server-7002.com #当前实例的主机名（IP名称/域名）
   client:
-    register-with-eureka: false     #false表示不向注册中心注册自己。
-    fetch-registry: false     #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    register-with-eureka: false     #false 表示不向注册中心注册自己。
+    fetch-registry: false     #false 表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去获取服务注册信息
     service-url:
       #设置与Eureka Server交互的地址查询服务和注册服务都需要依赖这个地址。
       #单机
