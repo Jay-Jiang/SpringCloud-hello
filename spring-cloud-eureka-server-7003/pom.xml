@@ -33,8 +33,8 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <!--指明程序主入口，否则 Java -jar 无法运行-->
                 <configuration>
+                    <!--指明程序主入口，否则 Java -jar 无法运行-->
                     <mainClass>com.demo.springcloud.AppMain_Eureka_Server_7003</mainClass>
                 </configuration>
                 <executions>
