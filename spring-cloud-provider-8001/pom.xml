@@ -113,7 +113,16 @@
                 <configuration>
                     <!-- 如果没有该配置，热部署的devtools不生效 -->
                     <fork>true</fork>
+                    <!--指明程序主入口，否则 Java -jar 无法运行-->
+                    <mainClass>com.demo.springcloud.AppMain_Dept_8001</mainClass>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- 自定义配置spring Boot使用的JDK版本 -->
