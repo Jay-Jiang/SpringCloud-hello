@@ -16,7 +16,7 @@ spring:
     #driver-class-name: org.gjt.mm.mysql.Driver             # mysql驱动包(之前的写法)
     url: jdbc:mysql://springcloud.mysql.com:3306/demo_db_03     # 数据库名称
     username: root
-    password: mysql2018
+    password: root
     dbcp2:
       min-idle: 5                                           # 数据库连接池的最小维持连接数
       initial-size: 5                                       # 初始化连接数
