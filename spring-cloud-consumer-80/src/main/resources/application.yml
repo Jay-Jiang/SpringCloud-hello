@@ -1,6 +1,10 @@
 server:
   port: 80
 
+spring:
+  application:
+    name: consumer-ribbon
+
 eureka:
   client:
     register-with-eureka: false  # 此客户端不进行注册
@@ -12,3 +16,5 @@ dept:
   url:
     preffix: http://PROVIDER-DEPT  # 使用负载均衡组件后，可以使用【服务名称】代替具体的服务提供者所在的 URI 地址
     # preffix: "http://localhost:8001"
+
+

@@ -76,7 +76,7 @@ public class MyRule extends AbstractLoadBalancerRule {
 	}
 
 	@Override
-	public Server choose(Object o) {
-		return null;
+	public Server choose(Object key) {
+		return choose(getLoadBalancer(), key);
 	}
 }

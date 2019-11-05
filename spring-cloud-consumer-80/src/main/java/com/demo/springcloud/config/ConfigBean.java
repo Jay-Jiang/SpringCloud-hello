@@ -1,5 +1,7 @@
 package com.demo.springcloud.config;
 
+import com.netflix.loadbalancer.IRule;
+import com.netflix.loadbalancer.RandomRule;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -38,14 +40,14 @@ public class ConfigBean {
 	 * 注入到 Spring 容器中（如果没有指定，则采用默认的轮询算法）
 	 */
 	//@Bean("defaultRule")
-	//public IRule runningRule() {
-	//	//轮询算法
-	//	return new RoundRobinRule();
-	//	//随机算法
-	//	//return new RandomRule();
-	//	//响应时间加权算法
-	//	//return new WeightedResponseTimeRule();
-	//	//return new RetryRule();
-	//	//return new MyRule();
-	//}
+	public IRule runningRule() {
+		//轮询算法
+		//return new RoundRobinRule();
+		//随机算法
+		return new RandomRule();
+		//响应时间加权算法
+		//return new WeightedResponseTimeRule();
+		//return new RetryRule();
+		//return new MyRule();
+	}
 }
