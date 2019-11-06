@@ -1,0 +1,15 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: consumer-feign
+
+eureka:
+  client:
+    register-with-eureka: false  # 此客户端不进行注册
+    service-url:
+      defaultZone: http://eureka-server-7001.com:7001/eureka/,http://eureka-server-7002.com:7002/eureka/,http://eureka-server-7003.com:7003/eureka/
+
+
+
