@@ -17,6 +17,7 @@
         <module>spring-cloud-provider-8001</module>
         <module>spring-cloud-provider-8002</module>
         <module>spring-cloud-provider-8003</module>
+        <module>spring-cloud-consumer-feign</module>
     </modules>
 
     <!--定义属性-->
