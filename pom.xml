@@ -19,6 +19,7 @@
         <module>spring-cloud-provider-8003</module>
         <module>spring-cloud-consumer-feign</module>
         <module>spring-cloud-provider-hystrix-8004</module>
+        <module>spring-cloud-consumer-hystrix-dashboard</module>
     </modules>
 
     <!--定义属性-->
