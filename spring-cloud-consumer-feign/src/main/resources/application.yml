@@ -5,6 +5,10 @@ spring:
   application:
     name: consumer-feign
 
+feign:
+  hystrix:
+    enabled: true
+
 eureka:
   client:
     register-with-eureka: false  # 此客户端不进行注册
