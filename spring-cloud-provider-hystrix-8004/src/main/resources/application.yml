@@ -1,0 +1,50 @@
+server:
+  port: 8004
+
+mybatis:
+  config-location: classpath:mybatis/mybatis.cfg.xml        # mybatis配置文件所在路径
+  type-aliases-package: com.demo.springcloud.entity         # 所有Entity别名类所在包
+  mapper-locations:
+    - classpath:mybatis/mapper/**/*.xml                     # mapper映射文件
+
+spring:
+  application:
+    name: provider-dept   # 当前实例在 Eureka server 中的名称，对应特定的服务（可以理解为服务名称）
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
+    driver-class-name: com.mysql.jdbc.Driver                # mysql驱动包
+    #driver-class-name: org.gjt.mm.mysql.Driver             # mysql驱动包(之前的写法)
+    url: jdbc:mysql://springcloud.mysql.com:3306/demo_db_01     # 数据库名称
+    username: root
+    password: root
+    dbcp2:
+      min-idle: 5                                           # 数据库连接池的最小维持连接数
+      initial-size: 5                                       # 初始化连接数
+      max-total: 5                                          # 最大连接数
+      max-wait-millis: 200                                  # 等待连接获取的最大超时时间
+
+# Eureka Client
+eureka:
+  client: #客户端注册进eureka服务列表内
+    service-url:
+      #单机
+      #defaultZone: http://localhost:7001/eureka/
+      #defaultZone: http://eureka-server-7001.com:7001/eureka/
+      #集群
+      defaultZone: http://eureka-server-7001.com:7001/eureka/,http://eureka-server-7002.com:7002/eureka/,http://eureka-server-7003.com:7003/eureka/
+  instance:
+    instance-id: provider-dept-hystrix-8004   # 当前注册实例，在 Eureka Server 中的唯一标识，配置后优化用于生成对应的超链接名称，否则使用 hostname+appname+端口号（可以理解为提供服务的实例名称）
+    prefer-ip-address: true           # 有限使用ip 地址进行地址注册，超链接悬浮时，可以显示该微服务的 IP 地址，方便定位，否则使用 hostname
+
+# Actuator 配置
+# 在 Eureka Server 界面点击对应的微服务链接时，跳转展示该微服务的信息，而不是进入报错页面 ErrorPage
+# 即 配置了 /actuator/info 返回的 JSON 数据
+info:
+  app:
+    name: ${eureka.instance.instance-id}
+  company:
+    name: www.demo.springcloud.com
+  build:
+    artifactId: $project.artifactId$
+    version: $project.version$
+
