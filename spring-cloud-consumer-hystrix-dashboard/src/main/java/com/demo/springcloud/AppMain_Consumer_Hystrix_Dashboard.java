@@ -16,6 +16,8 @@ public class AppMain_Consumer_Hystrix_Dashboard {
 		SpringApplication.run(AppMain_Consumer_Hystrix_Dashboard.class, args);
 	}
 
+	//如果访问服务提供者的 /hystrix.stream 路径，报错 404
+	//需要在服务提供者项目启动类中，添加如下的 ServletRegistrationBean
 	//@Bean
 	//public ServletRegistrationBean getServlet() {
 	//	HystrixMetricsStreamServlet streamServlet = new HystrixMetricsStreamServlet();
