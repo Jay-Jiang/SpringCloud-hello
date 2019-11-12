@@ -1,0 +1,42 @@
+server:
+  port: 9527
+
+spring:
+  application:
+    name: gateway-zuul
+
+# 网关路由
+# 访问地址：http://zuul-uri/服务名/访问具体路径，如 http://localhost:9527/provider-dept/dept/get/1
+zuul:
+  ignored-services: provider-dept # 忽略指定服务的真实访问路径（隐藏了真实的服务名称），此时 http://localhost:9527/provider-dept/dept/get/1 会报404 错误
+  #ignored-services: provider-dept, provider-staff  # 忽略多个服务，用半角逗号分隔
+  #ignored-services: "*"  # 忽略全部服务，用 * 代替
+  routes:
+    provider-dept: /provider/**  # 指定服务 provider-dept 的映射路径为 /provider，即 http://localhost:9527/provider/dept/get/1
+    #当只有一个服务时，上一行 key:value 的形式等价于以下写法
+    route-name:
+      service-id: provider-dept
+      path: /provider/**
+
+# Eureka Client
+eureka:
+  client:
+    service-url:
+      #集群
+      defaultZone: http://eureka-server-7001.com:7001/eureka/,http://eureka-server-7002.com:7002/eureka/,http://eureka-server-7003.com:7003/eureka/
+  instance:
+    instance-id: gateway-zuul-9527
+    prefer-ip-address: true
+
+# Actuator 配置
+# 在 Eureka Server 界面点击对应的微服务链接时，跳转展示该微服务的信息，而不是进入报错页面 ErrorPage
+# 即 配置了 /actuator/info 返回的 JSON 数据
+info:
+  app:
+    name: spring-cloud-gateway-zuul-9527
+  company:
+    name: www.demo.springcloud.com
+  build:
+    artifactId: $project.artifactId$
+    version: $project.version$
+
