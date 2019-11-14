@@ -1,0 +1,24 @@
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          # 注意：当前配置无法使用，ssh 方式一直连接不上：NoSuchRepositoryException
+          # GitHub 上配置文件所在的仓库地址 ssh
+          uri: git@github.com:Jay-Jiang/SpringCloud-config.git
+          passphrase: rsa
+          # 默认拉取的git 分支
+          default-label: master
+          # 搜索的目标路径
+          # search-paths: /**
+          # 强制拉取，如果spring cloud 没有拉取更新，就从远程仓库获取最新的版本
+          force-pull: true
+          # 第一次是否允许进行 clone
+          clone-on-start: false
+          # 重要：忽略本地的 SSH 设置，进而使用如下的私钥
+          ignoreLocalSshSettings: false
+          # 私钥
+          # 这个| 一定要加，后面的私钥一定要写在| 所在竖行的后面，注意格式
+#          passphrase: |
+#                        -----BEGIN OPENSSH PRIVATE KEY-----
+#                        -----END OPENSSH PRIVATE KEY-----

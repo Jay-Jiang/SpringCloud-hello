@@ -1,0 +1,55 @@
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          # GitHub 上配置文件所在的仓库地址 https
+          # https 地址加 privateKey 或者显示声明账号密码，亲测可以正常连接，并获取配置内容
+          uri: https://github.com/Jay-Jiang/SpringCloud-config.git
+          # HTTPS + 用户名 + 密码
+          # username: username
+          # password: password
+          force-pull: true
+          # 重要：忽略本地的 SSH 设置，进而使用如下的私钥
+          ignoreLocalSshSettings: true
+          # HTTPS + 私钥
+          privateKey: |   # 这个| 一定要加，后面的私钥一定要写在| 所在竖行的后面，注意格式
+                        -----BEGIN OPENSSH PRIVATE KEY-----
+                        b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABCOmBNk9Q
+                        JB40SbPJKMyj9dAAAAEAAAAAEAAAGXAAAAB3NzaC1yc2EAAAADAQABAAABgQDbO/ug93Ry
+                        dhNf78tg3DQcdLkTZoFpoH9c09DHcuFt87jxJM/aldFRSAbiI6Jz790Ei/1yOXeyWH84aS
+                        7JjTHc3M1EQSp8/kGezjFyvqZTu3jks9w9RUTd6AIhvEHKqacdtF8yzCQHD3awAd7Z7u6M
+                        sE8ezkaxiNH4SGdSAnZoXCivo5YItQlLoQQ797OhoItDjJ9ehwrHAbPwWtmtQ2SaWNh9Mn
+                        qsfL2ttxR1CpjD43a4d9D030ne5Je7uN/bsTXaIcSx9vXPt8TJpclQiAbqlDFvainX4TyP
+                        UmH1aiyDv9tfZO08MYOqoO2/MfkmQ2Y0hpo3zLkU5GwtYqFn67Zl94kFmLsXMXs7n3eUj7
+                        x1r5OgJ9Tqqc14mnwM0qyOe0bGBwgwCzEXIPAYkrBlk2/mzZ6DLzWuMod2WVrYibAkoqjE
+                        uqGwy2j1mhr9zaLk3onop5V6CJEhGM7gmV9z9J9Cj9+j0OMVPfcD47N7ySmNSsqA6ExZQu
+                        MtJi+4DOmDej0AAAWQQsPVDq2v1aM06rvN0QjOo7PHM2h6mK8NGGSwOkuBR/pgLlcS7CVA
+                        B54hMUZ8AbDX2KDf8S3SrdPWbDJWf9jzdYy43i5x1SXgKCiON6/5+rzNmpD13ObhmaWM47
+                        gkts9U1g2K4bFhHEyLJ9raO9JzbNDZh5pFZ9ysbcL1UFYjNvOmQI+2AZiCI2tvvIKqkezZ
+                        O++92tJkFxr9UBMkXTabGekV0Ii0/uEvSGud/kinOad5dLGNjDh638UT6SNF5m5eWkszub
+                        H8/BQ0Z0W5rHprYxcWJIESseb3s9XDH6XN8QwqtENZQt+iKW+kqeeF/r7x63lYV4f1fM8J
+                        dPJohzrv5NXWZBK9DluwXd1+/iH36hJDTeoglEWDMhhrf36EZfCek1xjNWSa2bFoWT77I8
+                        lfi/OhowHMKIRu7cmaQfLmCb4NVeRWzWtU1JALRIXT8ruUh89BMULIWAOLtTjJ3eNYbPIe
+                        PSR+Hhat/DJlPywKZJzWmoRDn95gHo7viXmsMicv5Hu/kUAR87+Ve1gkgew4N2e0kU3EPY
+                        4HT7KF3p5qv+/j20wQXWN1nx+cn4QkwTBbW9ZfM1c02Um6pX00uqC2NS3iw4yU5A6902Fs
+                        jp2V6w3UiF4BK5Teor5zxDUztnM6CMepUkAswIVdQXtyuztHBzvjtkwxZRfVStSuyK/QP8
+                        dXmfDKGemfmwICAmJbDRKt5+5+5CU7KOr2v3oPyTw8sxS0qRaQP1A0y4PF26FUnCJKq1QT
+                        aRk4HAtIiXRAVz7DhbCnk4vn+CV412xUuNdRPwA62FIXnNlPNkRaLcBIDgq5/+N/XDAUMH
+                        StODaFMeEgJhP0nBTR49NHTxQFIwZHTifRcPEzPKxPOAuLPVhI3vB+xsVz1adT1VHc2SWd
+                        oZaANsS0hLnll4kS5DFARuKa9TOyAgpsR2yucK44gGsNTiV6T9AKRgZvPQ+v3jLBDQiSyC
+                        mrvWMP/xqLuCKz7EXHjUUPoMVvr1doDvldOcE8BNbgDCAgxrdBc/Br7UTuCm0RccQkFtsp
+                        5VjJtDPm1JcgUAVy/LT1S/ZrGDYEu6Q187R8JOzIrDVC9uxzBNyridxzH3zfocKtbHg0Mc
+                        SYM7NdwFsvWiY/G0CtU1ZNeG5kNVcT/W+a3CMvYjGtP24LXCRh9/1oTOTSUDWrx58y0ZQR
+                        +0RoQV+5ylU3DxHRoTPouRZM/yfahPYjMDZeu32V69GMDCFeX/H0779+PEOWY0BKYuLDey
+                        rcqvhP32ktHE1nfAbSVYqMXOu1TrEyXYu7oaseJG2oMCV9gXVoKR8CYrwpNAHUvB15R/qq
+                        +EXz9oO6WgHAN2loAZnBusHc3Sb9Munp+rtHaBZ4GFVDHcrI6H9I/b+toaAQLm4hwDZj4m
+                        i7nlI9lQRzM3GhpK8UOfAy2j0Y07McanVO6eqNZ3zlPbM+KsW2jQsnIAF8DIckaLL2JR42
+                        Nm1ehUg+J4TFcSiymfkPAkD1lOAgeptMGMr+05YWZ2LSi2zDzJF5PwkmueK+lGVwdtl6Rw
+                        ggACRbDMsi4sBHaV8AMAO8mkqAogdA4zDL+flawmqEb270OZGMQ0yeh95FFHzLCeK0UsmT
+                        ZENqlOoYw68nJ9DTY6oVQNlNLj7c/1OTKZXcvdVtSLl2kqvIN4Z4sLgWRrMjwzdKVhSc26
+                        +HPHamoiZEe/VMH2vcftg9VB8L3dje1Mr1WBl4+rnjGzQY1YmABS51JcbDgc/USch5J+kE
+                        nBElfsN264TF8WIZ/SPJ51qla4qSARevDmTfYT6SIYbMtJHdVPtdUd+P2UMAzVlivVxXIv
+                        rdRDD4WclykP1/kXqqgZALBGFWPPINM9mpHfJET8eRFj6/DaXIIUToTX7DYwLEYwNQ20d6
+                        GF8LGjx0eWJD1yBbWQv2FgosRZM=
+                        -----END OPENSSH PRIVATE KEY-----

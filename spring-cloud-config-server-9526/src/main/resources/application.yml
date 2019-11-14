@@ -1,0 +1,8 @@
+server:
+  port: 9526
+
+spring:
+  application:
+    name: spring-cloud-config
+  profiles:
+    active: https
