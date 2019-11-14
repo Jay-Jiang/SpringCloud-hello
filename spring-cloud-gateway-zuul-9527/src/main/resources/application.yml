@@ -8,13 +8,14 @@ spring:
 # 网关路由
 # 访问地址：http://zuul-uri/服务名/访问具体路径，如 http://localhost:9527/provider-dept/dept/get/1
 zuul:
-  ignored-services: provider-dept # 忽略指定服务的真实访问路径（隐藏了真实的服务名称），此时 http://localhost:9527/provider-dept/dept/get/1 会报404 错误
+  prefix: /demo # 指定访问前缀，位于 path 值之前 ，如 http://localhost:9527/demo/provider/dept/get/1
+  ignored-services: provider-dept # 忽略指定服务的真实访问路径（隐藏了真实的服务名称），此时直接访问 http://localhost:9527/provider-dept/dept/get/1 会报404 错误
   #ignored-services: provider-dept, provider-staff  # 忽略多个服务，用半角逗号分隔
   #ignored-services: "*"  # 忽略全部服务，用 * 代替
   routes:
-    provider-dept: /provider/**  # 指定服务 provider-dept 的映射路径为 /provider，即 http://localhost:9527/provider/dept/get/1
-    #当只有一个服务时，上一行 key:value 的形式等价于以下写法
-    route-name:
+    #provider-dept: /provider/**  # 指定服务 provider-dept 的映射路径为 /provider，即 http://localhost:9527/provider/dept/get/1
+    # 上一行 key:value 的形式等价于以下写法
+    route-name: mydept
       service-id: provider-dept
       path: /provider/**
 
