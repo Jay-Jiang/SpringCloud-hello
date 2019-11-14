@@ -18,7 +18,7 @@
             <artifactId>spring-cloud-api</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!--配置中心 Config Server-->
+        <!--配置中心服务端 Config Server-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-config-server</artifactId>
