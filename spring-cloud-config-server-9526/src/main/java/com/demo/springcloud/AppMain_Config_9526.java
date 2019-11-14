@@ -7,7 +7,7 @@ import org.springframework.cloud.config.server.EnableConfigServer;
 /**
  * _@Author: jianghj
  * _@Date: 2019.10.28 028 15:31
- * _@Desc: 开启网关 Zuul
+ * _@Desc: SpringCloud Config 服务端
  */
 @SpringBootApplication
 @EnableConfigServer
