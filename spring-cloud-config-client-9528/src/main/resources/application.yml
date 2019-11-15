@@ -1,0 +1,6 @@
+server:
+  port: 9528  # 本地属性配置的优先级比较低，无法覆盖 bootstrap 从配置中心获取的同名配置
+
+spring:
+  application:
+    name: spirng-cloud-config-client-9528

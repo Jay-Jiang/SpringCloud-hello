@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    config:
+      name: spring-cloud-config-client # 需要从 GitHub 上读取配置信息的文件名称，注意：没有文件后缀名，yml/properties
+      profile: test # 本次读取的环境，即读取该环境下的配置项
+      label: master # 读取的目标文件在 GitHub 上的分支
+      uri: http://config.demo.com:9526 # SpringCloud 配置中心服务端的地址，本微服务通过配置中心，来读取 GitHub 上的资源
